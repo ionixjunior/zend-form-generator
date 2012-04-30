@@ -1,0 +1,50 @@
+This library is to create Zend Forms automatically based on information from the database.
+
+Requirements for the usage:
+PHP 5 >= 5.3.0
+
+The forms files are created based on tables existing on database, so each table exist in database will be created a form file.
+
+For the form files be created correctly, in the each column of tables need to be commented, and this comment is used in the label of field element of form file.
+
+The creation of each field of the form file, some validations are considered. If the field type is string, the attribute maxlength is inserted on Zend Form Element. If the field type is integer, the Zend_Validate_Int is inserted in the Zend Form Element. If the field deny null values on column, the validator Zend_Validate_NotEmpty and option required will be inserted in the form element. 
+
+On each columns of tables on database, if the column exist a foreign key, automatically the form element inserted will be Zend_Form_Element_Select.
+
+You can create the forms files the following ways:
+- In the pattern suggested by Zend ( verify Zend manual section recommended structure )
+- In your personal library ( using namespaces ) 
+
+
+
+1) The database:
+
+To generate the forms, you can use database MySQL or PostgreSQL. Configure your database file zend-form-generator.php and enjoy the library.
+
+There are two test databases that you can check the files and "database-mysql.sql" and "database-postgresql.sql".
+
+Remembering, you need to insert comment in all the columns of the database to the form generator function properly.
+
+
+
+2) Run the library:
+
+To generate your forms, just have to execute the following commands:
+
+Generating forms inside the Forms folder using structure recommended by Zend:
+$ php zend-form-generator.php generate-forms Forms
+
+
+Generating forms inside the Forms folder using namespaces:
+$ php zend-form-generator.php generate-forms Forms Name\Your\Namespace
+
+
+Generating forms inside the Forms folder including the primary keys of tables.
+$ php zend-form-generator.php generate-forms --primary-keys Forms
+or
+$ php zend-form-generator.php generate-forms --primary-keys Forms Name\Your\Namespace
+
+
+Soon it will be added functionality to customize the forms for decorators.
+
+Enjoy!
