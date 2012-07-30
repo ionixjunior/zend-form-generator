@@ -2,6 +2,7 @@
 
 /**
  * Application_Form_Business form file.
+ * This is a sample generated files
  */
 class Application_Form_Business extends Zend_Form
 {
