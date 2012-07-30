@@ -32,15 +32,15 @@ class Pgsql implements Behavior
 	public function getDatabaseSchemas( $database )
 	{	
 		$stmt = $this->getDb()
-					 ->query("SELECT table_schema
-					 		  FROM information_schema.COLUMNS 
-					 		  WHERE ( 
-					 		  table_schema != 'information_schema' 
-					 		  AND table_schema != 'pg_catalog' 
-					 		  ) 
-					 		  AND table_catalog = :database
-					 		  GROUP BY table_schema 
-					 		  ORDER BY table_schema", array(':database' => $database));
+					 ->query("SELECT table_schema ".
+					 		 "FROM information_schema.COLUMNS ".
+					 		 "WHERE ( ".
+					 		 "table_schema != 'information_schema' ".
+					 		 "AND table_schema != 'pg_catalog' ".
+					 		 ") ".
+					 		 "AND table_catalog = :database ".
+					 		 "GROUP BY table_schema ".
+					 		 "ORDER BY table_schema", array(':database' => $database));
 		$result = $stmt->fetchAll();
 		
 		$databaseSchemas = array();
@@ -58,12 +58,12 @@ class Pgsql implements Behavior
 	public function getDatabaseTables( $schema )
 	{	
 		$stmt = $this->getDb()
-					 ->query("SELECT table_name 
-					 		  FROM information_schema.COLUMNS 
-					 		  WHERE  
-					 		  table_schema = :schema 
-					 		  GROUP BY table_name 
-					 		  ORDER BY table_name", array(':schema' => $schema));
+					 ->query("SELECT table_name ".
+					 		 "FROM information_schema.COLUMNS ".
+					 		 "WHERE  ".
+					 		 "table_schema = :schema ".
+					 		 "GROUP BY table_name ".
+					 		 "ORDER BY table_name", array(':schema' => $schema));
 		$result = $stmt->fetchAll();
 		
 		$databaseTables = array();
@@ -81,12 +81,12 @@ class Pgsql implements Behavior
 	public function getTableColumns( $table, $schema = null )
 	{	
 		$stmt = $this->getDb()
-				     ->query("SELECT *,
-							 (SELECT pg_catalog.obj_description(oid) FROM pg_catalog.pg_class c 
-							 WHERE c.relname=cols.table_name) AS table_comment
-							 ,(SELECT pg_catalog.col_description(oid,cols.ordinal_position::int) FROM pg_catalog.pg_class c where c.relname=cols.table_name) as column_comment
-							 FROM information_schema.columns cols
-							 WHERE table_name = :table AND table_schema = :schema", array(':table' => $table, ':schema' => $schema));
+				     ->query("SELECT *, ".
+							 "(SELECT pg_catalog.obj_description(oid) FROM pg_catalog.pg_class c ".
+							 "WHERE c.relname=cols.table_name) AS table_comment ".
+							 ",(SELECT pg_catalog.col_description(oid,cols.ordinal_position::int) FROM pg_catalog.pg_class c where c.relname=cols.table_name) as column_comment ".
+							 "FROM information_schema.columns cols ".
+							 "WHERE table_name = :table AND table_schema = :schema", array(':table' => $table, ':schema' => $schema));
 		$result = $stmt->fetchAll();
 		
 		$tableColumns = array();
@@ -113,15 +113,15 @@ class Pgsql implements Behavior
 	public function getTablePrimaryKeys( $table, $schema = null )
 	{	
 		$stmt = $this->getDb()
-					 ->query("SELECT
-							  kcu.column_name,
-							  tc.table_name
-							  FROM 
-							  information_schema.table_constraints AS tc 
-							  JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name
-							  JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name
-							  WHERE constraint_type = 'PRIMARY KEY'
-							  AND tc.table_schema = :schema", array(':schema' => $schema));
+					 ->query("SELECT ".
+							 "kcu.column_name, ".
+							 "tc.table_name ".
+							 "FROM ".
+							 "information_schema.table_constraints AS tc ".
+							 "JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name ".
+							 "JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name ".
+							 "WHERE constraint_type = 'PRIMARY KEY' ".
+							 "AND tc.table_schema = :schema", array(':schema' => $schema));
 		$result = $stmt->fetchAll();
 		
 		$tablePrimaryKeys = array();
@@ -144,15 +144,15 @@ class Pgsql implements Behavior
 	public function getTableForeignKeys( $table, $schema = null )
 	{	
 		$stmt = $this->getDb()
-					 ->query("SELECT
-							  kcu.column_name,
-							  tc.table_name
-							  FROM 
-							  information_schema.table_constraints AS tc 
-							  JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name
-							  JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name
-							  WHERE constraint_type = 'FOREIGN KEY' 
-							  AND tc.table_schema = :schema", array(':schema' => $schema));
+					 ->query("SELECT ".
+							 "kcu.column_name, ".
+							 "tc.table_name ".
+							 "FROM ".
+							 "information_schema.table_constraints AS tc ".
+							 "JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name = kcu.constraint_name ".
+							 "JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name = tc.constraint_name ".
+							 "WHERE constraint_type = 'FOREIGN KEY' ".
+							 "AND tc.table_schema = :schema", array(':schema' => $schema));
 		$result = $stmt->fetchAll();
 		
 		$tableForeignKeys = array();
