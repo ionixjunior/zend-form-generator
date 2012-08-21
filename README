@@ -1,41 +1,38 @@
-This is a library to create Zend Forms automatically based on information from the database.
+This library is meant to create Zend Forms based on information retrieved from the database automatically.
 
 Requirements for the usage:
 PHP 5 >= 5.3.0
 
-The forms files are created based on tables existing in the database, so for each table that exists in the database a form file will be created.
+The form files are created based on tables existing at the database, so for each existing table a form file will be created.
 
-To created the form files correctly each column of table must contain a comment labeling the field, this comment will be used in the field element of the form file being generated.
+To created the form files correctly each column of the table must contain a comment labeling the field, this comment will be used as the name of the generated field element of the form file being generated.
 
-At the moment of the creation of each field in the form file, some validations are considered. If the field type is string, the attribute maxlength is inserted on Zend Form Element. If the field type is integer, the Zend_Validate_Int is inserted in the Zend Form Element. If the field deny null values on column, the validator Zend_Validate_NotEmpty and option required will be inserted in the form element. 
+At the moment of the creation of each field in the form file, some validations are considered. If the field type is String, the attribute maxlength is used as a rule on Zend Form Element. If the field type is integer, the Zend_Validate_Int is used in the Zend Form Element. If the field deny null values on column, the validator Zend_Validate_NotEmpty and option required used. 
 
-On each columns of tables on database, if the column exist a foreign key, automatically the form element inserted will be Zend_Form_Element_Select.
+Also if the column is a foreign key, the form element will be a Zend_Form_Element_Select.
 
-You can create the forms files the following ways:
-- In the pattern suggested by Zend ( verify Zend manual section recommended structure )
-- In your personal library ( using namespaces ) 
-
+You can create the forms files in the following ways:
+- Using the structure suggested by Zend ( verify Zend manual, section: recommended structure )
+- Using your personal library ( using namespaces ) 
 
 
 1) The database:
 
-To generate the forms, you can use database MySQL or PostgreSQL. Configure your database file zend-form-generator.php and enjoy the library.
+To generate the forms, you can use MySQL or PostgreSQL database systems. To use the library you must configure your database connection data in the zend-form-generator.php file.
+The package comes with 2 test databases and the files used to handle each database system are "database-mysql.sql" and "database-postgresql.sql".
 
-There are two test databases that you can check the files and "database-mysql.sql" and "database-postgresql.sql".
-
-Remember, you need to insert a comment in all the columns of the database to the form generator function properly.
-
+Remember, you need to insert a comment in all the columns of the database so the form generator can function properly.
 
 
 2) Run the library:
 
-To generate your forms, just execute the following commands:
+To generate your forms execute the following commands using the PHP CLI:
 
 Generating forms inside the Forms folder using structure recommended by Zend:
 $ php zend-form-generator.php generate-forms Forms
 
 
-Generating forms inside the Forms folder using namespaces:
+Generating forms inside the Forms folder using a namespaces:
 $ php zend-form-generator.php generate-forms Forms Name\Your\Namespace
 
 
@@ -45,6 +42,6 @@ or
 $ php zend-form-generator.php generate-forms --primary-keys Forms Name\Your\Namespace
 
 
-Soon a feature to customize the forms using decorators will be added.
+In the near future decorators will be added to give the ability to customize the generated forms.
 
 Enjoy!
